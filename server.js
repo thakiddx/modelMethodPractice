@@ -22,11 +22,26 @@ app.use(helmet());
 
 // START ROUTES //
 
-
 // find   - finds everything
-// .find()
+app.get('/books', async (req, res) => {
+    let dbResponse = await Book.find();
+    res.send(dbResponse);
+})
+
+// .findOne()
+app.get('/books/:title', async (req, res) => {
+    let title = req.params.title;
+    let dbResponse = await Book.findOne({title: title});
+    res.send(dbResponse);
+})
  
 // findById
+app.get('/books/:id', async (req, res) => {
+    let id = req.params.id;
+    let dbResponse = await Book.findById(id);
+    res.send(dbResponse);
+})
+
 
 // insertMany
 app.post('/books', async (req, res) => {
@@ -37,7 +52,25 @@ app.post('/books', async (req, res) => {
     res.send(dbResponse);
 })
 
-// findOne
+// filter
+app.get('/books/filter/:pages', async (req, res) => {
+    let pages = req.params.pages;
+    let dbResponse = await Book.find({pages: {$gte: pages}});
+    res.send(dbResponse);
+})
+
+//.findByIdAndDelete()
+app.delete('/books/:id', async (req, res) => {
+    let id = req.params.id;
+    let dbResponse = await Book.findByIdAndDelete(id);
+    res.send(dbResponse);
+})  
+
+// .deleteMany()
+app.delete('/books', async (req, res) => {
+    let dbResponse = await Book.deleteMany();
+    res.send(dbResponse);
+})  
 
 // END ROUTES //
 
